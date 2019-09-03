@@ -1,0 +1,96 @@
+<!--
+  Home page
+  - 1st tab
+  - show all posts and ads on maps and grid.
+-->
+<ion-header scroll-hide [scrollContent]="pageContent">
+<!-- <ion-header> -->
+    <!--
+        <img src="https://avatars.io/instagram/pathmoretravelled" />
+        <h2>Josh</h2>
+        
+
+        <img src="assets/imgs/gps.png" class="gps-posi" (click)="forGeoLocation()" />
+        <img src="assets/imgs/refresh.png" class="refresh" (click)="refreshLocation()" />
+        <div #map id="map"></div>
+    -->
+
+    <img src="assets/imgs/gps.png" class="gps-posi" (click)="forGeoLocation()" />
+    <img src="assets/imgs/refresh.png" class="refresh" (click)="refreshLocation()" />
+    <div #map id="map"></div>
+
+    <!--
+    <shrinking-segment-header [scrollArea]="pageContent">
+        
+    </shrinking-segment-header>
+    -->
+
+    <!--
+    <ion-row>
+        <ion-col class="no-padding">
+            <img src="assets/imgs/gps.png" class="gps-posi" (click)="forGeoLocation()" />
+            <img src="assets/imgs/refresh.png" class="refresh" (click)="refreshLocation()" />
+            <div #map id="map"></div>
+        </ion-col>
+    </ion-row>
+    -->
+</ion-header>
+
+<ion-content #pageContent fullscreen>
+    
+    <ion-refresher #refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+            pullingIcon="arrow-dropdown"
+            pullingText="Pull to refresh"
+            refreshingSpinner="circles"
+            refreshingText="Refreshing...">
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <ion-row *ngIf="postAds.length == 0" style="height: 60%;align-items: center;">
+        <ion-col text-center>
+            データがありません。
+        </ion-col>
+    </ion-row>
+
+    <ion-grid *ngIf="postAds.length > 0">
+        <ion-row>
+            <ion-col col-6 *ngFor="let item of postAds">
+                <!-- Post Item -->
+                <ion-card *ngIf="item.type == 1" no-padding no-margin flat-card (tap)="gotoPostDetail(item.id)" style="width: 100% !important;">
+                    <ion-item class="no-padding">
+                        <ion-avatar item-start style="margin:6px 6px 6px 0px;">
+                            <img [src]="item.user_icon" />
+                        </ion-avatar>
+                        <h2 class="low-text">{{item.user_name}}</h2>
+                        <p class=" fs-10 ">
+                            {{item.reg_date}}
+                        </p>
+                    </ion-item>
+                    <img [src]="item.file_name" height="165" style="object-fit: cover;object-position: center;"/>
+                    <ion-card-content style="font-size: 1.2rem;padding: 8px 0px;">
+                        <p class="mar-top-text" style="max-height: 45px;text-overflow: ellipsis;font-size: 1.2rem;">{{item.comment}}</p>
+                    </ion-card-content>
+                </ion-card>
+
+                <!-- Ad Item -->
+                <ion-card *ngIf="item.type == 2" no-padding no-margin flat-card (tap)="gotoAdDetail(item.id)" style="width: 100% !important;">
+                    <ion-item class="no-padding">
+                        <ion-avatar item-start style="margin:6px 6px 6px 0px;">
+                            <img [src]="item.user_icon" />
+                        </ion-avatar>
+                        <h2 class="low-text">{{item.user_name}}</h2>
+                        <p class=" fs-10 ">
+                            {{item.reg_date}}
+                        </p>
+                    </ion-item>
+                    <img [src]="item.file_name" height="165" style="object-fit: cover;object-position: center;"/>
+                    <ion-card-content style="font-size: 1.2rem;padding: 8px 0px;">
+                        <p class="mar-top-text" style="max-height: 45px;text-overflow: ellipsis;font-size: 1.2rem;">{{item.comment}}</p>
+                    </ion-card-content>
+                </ion-card>
+
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

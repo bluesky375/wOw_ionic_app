@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1092574658389",
+    "firebase_url": "https://wowapp-aec7b.firebaseio.com",
+    "project_id": "wowapp-aec7b",
+    "storage_bucket": "wowapp-aec7b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092574658389:android:7f6383b29a9f32d8",
+        "android_client_info": {
+          "package_name": "io.wowapp.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092574658389-dbrdv8i5tran6o9ofs1po858632t12mt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.wowapp.com",
+            "certificate_hash": "aa903696aaba518335152ad9ed5534645ec1a295"
+          }
+        },
+        {
+          "client_id": "1092574658389-7jpf0lsi17dnugvermap663t5pfd98kq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxPxII1He87TR5asclBQsnzUhjcS-dVD0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1092574658389-7jpf0lsi17dnugvermap663t5pfd98kq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1092574658389-om7jg73e5lc57on3r516q43icdsvhrpd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.wowapp.com"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

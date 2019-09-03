@@ -1,0 +1,101 @@
+<ion-header>
+    <ion-navbar color="">
+        <!-- 
+        <ion-buttons left>
+            <button ion-button icon-only class="text-trans-initial " (click)="goback()">
+                <span class="color-blue">Cancel</span>
+                <ion-icon name="ios-arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        -->
+        <ion-title class="fs-12">
+            <!-- Account information -->アカウント情報</ion-title>
+        <ion-buttons right>
+            <button ion-button class="text-trans-initial color-blue" (click)="confirm()">
+                <span class="color-blue">
+                    <!-- Done -->完了</span>
+                <!-- <ion-icon name="notifications"></ion-icon> -->
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+    <div class="text-center bor-bot-1">
+        <img *ngIf="user.user_icon" [src]="user.user_icon" height="80" class="border" />
+
+        <img *ngIf="!user.user_icon" src="assets/imgs/default_avatar.png" height="80"  class="tiles-image" (click)="openCamera()" />
+
+        <ion-icon name="ios-close-circle"  (click)="deletePhoto()" style="position: absolute;"></ion-icon>
+
+        <p class="no-border text-blue fs-16">プロフィール写真を変更</p>
+    </div>
+    <div class="center-div">
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <p class="fs-w8-5">ユーザー名</p>
+                    <ion-input [(ngModel)]="user.username" placeholder="ユーザーネーム１２３" clearInput class="bor-bot-1"></ion-input>
+                </ion-col>
+            </ion-row>
+            
+            <br />
+
+            <ion-row>
+                <ion-col>
+                    <p class="marg-2 fs-w8-5">メールアドレス</p>
+                    <ion-input [(ngModel)]="user.email" placeholder="Email" class="bor-bot-1"></ion-input>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <p class="marg-2 fs-w8-5">パスワード</p>
+                    <ion-input [(ngModel)]="password" type="password" placeholder="aaabbbccc" clearInput class="bor-bot-1"></ion-input>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <p class="marg-2 fs-w8-5">パスワード（確認用）</p>
+                    <ion-input [(ngModel)]="confirmpwd" type="password" placeholder="aaabbbccc" clearInput class="bor-bot-1"></ion-input>
+                </ion-col>
+            </ion-row>
+
+            <br />
+
+            <ion-row>
+                <ion-col (click)="goSelectCategory()">
+                    <ion-label class="marg-2 fs-w8-5">カテゴリー</ion-label>
+                    <!--
+                    <ion-select class="item item-block item-ios select-cat" [(ngModel)]="user.category" placeholder="中文維基百基百科" multiple="true" disabled=true>
+                        <ion-option class="width-100per" *ngFor="let item of categories" [disabled]="item.del_flag == 1" [value]="item.id">{{item.category_name}}</ion-option>
+                    </ion-select>
+                    -->
+                    <div style="border-radius: 6px;width: 100%;background: #fff !important; max-width: 100% !important;opacity: 1 !important;padding: 8px !important;display: block; min-height: 35px;">
+                        {{ category_text }}
+                    </div>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col (click)="goSelectLocation()">
+                    <ion-label class="marg-2 fs-w8-5">都市</ion-label>
+                    <!--
+                    <ion-select class="item item-block item-ios select-cat" palceholder="City" [(ngModel)]="user.city" disabled=true>
+                        <ion-option *ngFor="let c of cities" [value]="c.id">{{c.city_name}}</ion-option>
+                    </ion-select>
+                    -->
+
+                    <div style="border-radius: 6px;width: 100%;background: #fff !important; max-width: 100% !important;opacity: 1 !important;padding: 8px !important;display: block; min-height: 35px;">
+                        <label *ngFor="let loc of locations">
+                            {{ loc.name }} &nbsp;
+                        </label>
+                    </div>
+                </ion-col>
+            </ion-row>
+
+            <br>
+            <br>
+        </ion-grid>
+    </div>
+</ion-content>

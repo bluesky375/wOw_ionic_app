@@ -1,0 +1,66 @@
+<!--
+   Ad detail view page.
+-->
+
+<ion-header>
+    <ion-navbar class="">
+        <ion-title class="">
+            <img [src]="current_user_icon" style="width: 40px;" class="img-avtar" />&nbsp;
+            広告一覧
+        </ion-title>
+        
+        <ion-buttons right>
+            <button ion-button class="text-trans-initial btn-blue">
+                <span class="text-white">広告申請</span>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+    <div>
+        <p class="bg-blues pad-5-10 text-white mar-auto fs-16">掲載中の広告</p>
+        <div padding>
+            <ion-row>
+                <ion-col col-4>
+                    <img [src]="first_image" class="wid-100" />
+                </ion-col>
+                <ion-col col-8>
+                    <p class="mar-auto fs-12">広告タイトル </p>
+                    <p class=" fs-12">カテゴリ &nbsp;
+                        <!-- <span>{{adDetail.category_id1}} / {{adDetail.category_id2}} </span>-->
+                        <span> {{ category_text }}</span>
+                    </p>
+                    <p class=" fs-12">掲載日数 &nbsp;
+                        <span>{{adDetail.days}}日間</span>
+                    </p>
+                    <p class=" fs-12">掲載日 &nbsp;
+                        <span>{{adDetail.reg_date}}</span>
+                    </p>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <p class="fs-12">
+                        {{adDetail.content}}
+                    </p>
+                </ion-col>
+            </ion-row>
+            <ion-row style="padding: 0px 5px;">
+                <ion-col col-3 *ngFor="let image of images| slice:1">
+                    <img [src]="image.file_name" class="tiles-image"/>
+                </ion-col>
+            </ion-row>
+            <br>
+            <br>
+            <ion-row class="row" *ngIf="type==3">
+                <ion-col class="col" text-center="">
+                    <button class="btn-blueq " (click)="reSubmit()">
+                        <!-- Re-apply as a new ad -->新規広告として再申請する</button>
+                </ion-col>
+            </ion-row>
+        </div>
+    </div>
+
+</ion-content>

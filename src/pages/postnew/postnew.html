@@ -1,0 +1,158 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            新規投稿
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-row padding>
+        <ion-col col-4 style="position: relative;">
+            <img [src]="_DomSanitizationService.bypassSecurityTrustUrl(photo ? photo : 'assets/imgs/camera.png')" (click)="OpenCamera()" class="wid-100" name="files" id="files" (load)="loaded($event)"/>
+            <ion-icon name="ios-close-circle" (click)="deletePhoto()" style="position: absolute;right: 14px;top: 14px;"></ion-icon>
+        </ion-col>
+        <ion-col col-8>
+            <!--
+            <ion-textarea [(ngModel)]="comment" placeholder="コメント" [readonly]="true" (click)="openModal()" class="wid-100 hi-100 no-border">
+            </ion-textarea>
+            -->
+            
+            <p class="mar-auto fs-12" *ngIf="comment == ''" (click)="openModal()" style="color:grey">コメント</p>
+            <p class="mar-auto fs-12" *ngIf="comment !== ''" (click)="openModal()">{{ comment }}</p>
+        </ion-col>
+    </ion-row>
+
+    <ion-grid *ngIf="mapShow">
+        位置
+    </ion-grid>
+
+    <ion-grid no-padding *ngIf="mapShow" >
+        <div #map id="map" style="height:200px"></div>
+        <div #content id="content"></div>
+    </ion-grid>
+
+    <ion-grid *ngIf="mapShow">
+        {{photoLocation ? photoLocation : ''}}
+    </ion-grid>
+    
+    <!-- Category Selection -->
+    <ion-list class="mar-auto bor-top bor-bot" padding>
+        <h6>カテゴリー選択</h6>
+        <ion-row class="selct-border">
+            <ion-col col-10 class="flex-center no-padding">
+                <ion-select class="select-label wid-100" [(ngModel)]="category" okText="はい" cancelText="いいえ">
+                    <ion-option *ngFor="let cat of categories" [value]="cat.id" [disabled]="cat.del_flag">{{cat.category_name}}</ion-option>
+                </ion-select>
+            </ion-col>
+            <ion-col col-2 class="flex-center">
+                <ion-icon name="ios-arrow-forward" class="fs-24"></ion-icon>
+            </ion-col>
+        </ion-row>
+    </ion-list>
+
+    <!--
+    <ion-list class="mar-auto bor-top bor-bot" padding>
+        <h6> // 都市 </h6>
+        <ion-row class=" selct-border">
+            <ion-col col-10 class="flex-center no-padding">
+                <ion-select class="select-label wid-100 " palceholder="City" [(ngModel)]="city">
+                    <ion-option *ngFor="let c of cities" [value]="c.id">{{c.city_name}}</ion-option>
+                </ion-select>
+            </ion-col>
+            <ion-col col-2 class="flex-center">
+                <ion-icon name="ios-arrow-forward" class="fs-24"></ion-icon>
+            </ion-col>
+        </ion-row>
+    </ion-list>
+    -->
+
+    <!-- Sharing scope -->
+    <ion-list class="mar-auto bor-top bor-bot" padding>
+        <h6>公開範囲</h6>
+        <ion-row class=" selct-border">
+            <ion-col col-10 class="flex-center no-padding">
+                <ion-select [(ngModel)]="share" class="select-label wid-100" okText="はい" cancelText="いいえ">
+                    <ion-option value="0" >公開</ion-option>
+                    <ion-option value="1" [selected]="true">非公開</ion-option>
+                </ion-select>
+            </ion-col>
+            <ion-col col-2 class="flex-center">
+                <ion-icon name="ios-arrow-forward" class="fs-24"></ion-icon>
+            </ion-col>
+        </ion-row>
+    </ion-list>
+    <br>
+
+    <!-- Facebook -->
+    <ion-row>
+        <ion-col col-5 class="flex-center">
+            <img src="assets/imgs/facebook_logo.png" height="25" />
+        </ion-col>
+        <ion-col col-4 class="flex-center">
+            <h6 class="fs-14">{{user?.username}}</h6>
+        </ion-col>
+        <ion-col col-3 class="flex-center">
+            <ion-toggle [(ngModel)]="facebookac" ></ion-toggle>
+        </ion-col>
+    </ion-row>
+
+    <!-- Twitter -->
+    <ion-row>
+        <ion-col col-5 class="flex-center">
+            <img src="assets/imgs/twitter_logo.png" height="25" />
+        </ion-col>
+        <ion-col col-4 class="flex-center">
+            <h6 class="fs-14">{{user?.username}}</h6>
+        </ion-col>
+        <ion-col col-3 class="flex-center">
+            <ion-toggle [(ngModel)]="twitterac" ></ion-toggle>
+        </ion-col>
+    </ion-row>
+
+    <!-- Instagram -->
+    <ion-row>
+        <ion-col col-5 class="flex-center">
+            <img src="assets/imgs/instagram_logo.png" height="25" />
+        </ion-col>
+        <ion-col col-4 class="flex-center">
+            <h6 class="fs-14">{{user?.username}}</h6>
+        </ion-col>
+        <ion-col col-3 class="flex-center">
+            <ion-toggle [(ngModel)]="instagramac" ></ion-toggle>
+        </ion-col>
+    </ion-row>
+
+    <ion-row>
+        <ion-col class="col" text-center>
+            <button [disabled]="!category || !comment || !photo" outline clear class="btn-blueq"
+                padding (click)="presentAlert()" style="padding: 18px 30px !important;font-size: 14px;">
+                投稿する
+            </button>
+        </ion-col>
+    </ion-row>
+
+    <br>
+    <br>
+    
+    <!-- comment dialog -->
+    <ion-grid class="comment_dialog" *ngIf="showCommentBox">
+        <ion-row>
+            <ion-col col-2>
+                <img style="width:42px;height:42px;" [src]="current_user_icon" class="img-avtar mar-auto" />
+            </ion-col>
+
+            <ion-col col-8>
+                <ion-textarea placeholder="Enter a description" style="background: white;border-radius: 6px;height: 100%;padding: 6px;" [(ngModel)]="commenttext" >
+                </ion-textarea>
+            </ion-col>
+
+            <ion-col col-2 style="text-align: center;">
+                <ion-icon name="close-circle" style="font-size: 36px;color: #3a51b2 !important;margin-top: 10px;" (click)="cloceClick()"></ion-icon>
+                <ion-icon name="send" style="font-size: 40px;color: #3a51b2 !important;margin-top: 10px;" (click)="sendClick()"></ion-icon>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+</ion-content>

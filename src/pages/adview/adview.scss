@@ -1,0 +1,22 @@
+page-adview {
+
+    ion-navbar button {
+        position: relative !important;
+    }
+
+    .toolbar-title {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        color: black !important;
+        font-size: 1.6rem !important;
+    }
+
+    /*
+    .btn-blue{
+        background: #3B52B2 !important;
+        border-radius: 20px !important;
+        padding: 10px !important;
+    }
+    */
+}

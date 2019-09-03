@@ -1,0 +1,76 @@
+<!--
+  Generated template for the FavoritePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+        <!-- Favorite -->
+        <!--
+        <button ion-button clear icon-only *ngIf="category_selected" (click)="backAllCat()" style="z-index: 100">
+            <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+        </button>
+        -->
+        <ion-title>お気に入り</ion-title>
+    </ion-navbar>
+
+    <div>
+        <ion-segment [(ngModel)]="selected_tab" class="bg-none">
+            <!-- Saved photos -->
+            <ion-segment-button value="getall" (ionSelect)="categorySegmentClicked($event)">
+                <span class="text-trans-initial fs-16">保存した写真</span>
+            </ion-segment-button>
+
+            <!-- By category -->
+            <ion-segment-button value="getbycat" (ionSelect)="categorySegmentClicked($event)">
+                <span class="text-trans-initial fs-16">カテゴリ別</span>
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+</ion-header>
+
+<ion-content>
+
+    <div [ngSwitch]="selected_tab" style="padding-top:12px;">
+        <!-- Show all posts -->
+        <ion-list *ngSwitchCase="'getall'">
+            <ion-row style="padding: 4px;">
+                <ion-col col-4 *ngFor="let post of posts" style="padding:4px !important;">
+                    <img [src]="post.raw_file_name" onError="this.src='assets/imgs/post_placeholder.jpg';" class="fav-image" (click)="goPost(post)" />
+                </ion-col>
+            </ion-row>
+        </ion-list>
+
+        <ion-list *ngSwitchCase="'getbycat'">
+            <!-- Show all categories -->
+            <div *ngIf="!category_selected">
+                <ion-row style="padding: 4px;">
+                    <ion-col col-4 class="flex-center" *ngFor="let cat of categories; let i = index" style="padding:4px !important;">
+                        <img *ngIf="cat.del_flag==0" [src]="imageurl[cat.id-1]" class="image-ti" (click)="selectCat(cat.id, cat.category_name)" />
+                    </ion-col>
+                </ion-row>
+            </div>
+
+            <!-- Show posts by category -->
+            <div *ngIf="category_selected">
+                <ion-row style="padding: 4px;">
+                    <ion-col col-4 class="flex-center" style="padding:4px !important;">
+                        <img [src]="imageurl[currentCatId-1]" class="image-ti" (click)="backAllCat()" />
+                    </ion-col>
+                    <ion-col col-8>
+                        <h5 class="mar-auto lh-100">{{currentCatName}}</h5>
+                    </ion-col>
+                </ion-row>
+                <ion-row  style="padding: 4px;">
+                    <ion-col col-4 *ngFor="let post of postsbycat;" style="padding:4px !important;">
+                        <img [src]="post.raw_file_name" onError="this.src='assets/imgs/post_placeholder.jpg';" class="fav-image" (click)="goPost(post)" />
+                    </ion-col>
+                </ion-row>
+            </div>
+        </ion-list>
+
+    </div>
+
+</ion-content>

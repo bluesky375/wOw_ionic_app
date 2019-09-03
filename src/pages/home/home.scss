@@ -1,0 +1,64 @@
+page-home {
+    [flat-card] {
+        box-shadow: none !important;
+    }
+    h2.low-text {
+        font-size: 1.3rem;
+    }
+    .scroll {
+        height: 100%
+    }
+    #map {
+        width: 100%;
+        height: 250px;
+    }
+    .border-grey {
+        border: 1px solid grey !important;
+    }
+    .mar-top-text {
+        margin-top: 4px !important;
+        margin-bottom: 0px !important;
+    }
+    .mar-set-label {
+        margin: 6px 6px 5px 0px !important;
+    }
+    ion-label.label.label-md {
+        margin: 6px 6px 5px 0px !important;
+    }
+    .gmnoscreen {
+        display: none !important;
+    }
+
+    .refresh {
+        z-index: 99999;
+        position: absolute;
+        top: 6px;
+        right: 60px;
+        width: 42px;
+    }
+
+    shrinking-segment-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /*
+    shrinking-segment-header {
+
+        background-color: #363636;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            border-radius: 50%;
+            width: 75px;
+            height: auto;
+            margin-right: 15px;
+        }
+
+    }
+    */
+}

@@ -1,0 +1,193 @@
+<!-- Submit Ad application -->
+<ion-header>
+    <ion-navbar>
+        <ion-title>広告配信申請</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content >
+    <ion-row class="pad-05">
+        <ion-col col-2></ion-col>
+
+        <ion-col col-4 style="position: relative;" *ngFor="let i of [1,1]; let ind = index">
+            <img *ngIf="!photos[ind]" src="assets/imgs/cam{{ind+1}}.png" class="tiles-image" (click)="openCamera(ind)" />
+            <img *ngIf="photos[ind]" [src]="photos[ind]" class="tiles-image" />
+            <ion-icon *ngIf="photos[ind]"  name="ios-close-circle"  (click)="deletePhoto(ind)" style="position: absolute;right: 14px;top: 14px;"></ion-icon>
+        </ion-col>
+
+        <ion-col col-2></ion-col>
+    </ion-row>
+
+    <ion-row class="pad-05">
+        <ion-col col-4 style="position: relative;" *ngFor="let i of [1,1,1]; let ind = index">
+            <img *ngIf="!photos[ind+2]" src="assets/imgs/cam{{ind+3}}.png" class="tiles-image" (click)="openCamera(ind+2)" />
+            <img *ngIf="photos[ind+2]" [src]="photos[ind+2]" class="tiles-image" />
+            <ion-icon *ngIf="photos[ind+2]"  name="ios-close-circle"  (click)="deletePhoto(ind+2)" style="position: absolute;right: 14px;top: 14px;"></ion-icon>
+        </ion-col>
+    </ion-row>
+
+    <ion-row class="pad-10">
+        <ion-textarea [(ngModel)]="adDetails.content" class="border-blue ltr-spc fs-12" placeholder="200文字以内で入カ してださい.">
+        </ion-textarea>
+    </ion-row>
+
+    <ion-list class="mar-auto pad-10">
+        <h6 style="margin-top: 10px;margin-left: 10px" class="text-blue">広告URL</h6>
+        <ion-row >
+            <ion-col class="no-padding">
+                <ion-input class="border-blue" no-padding [(ngModel)]="adDetails.url"></ion-input>
+            </ion-col>
+        </ion-row>
+    </ion-list>
+
+    <br />
+    <br />
+
+    <!-- Category -->
+    <ion-list class="mar-auto pad-15" no-lines>
+        <h6 class="text-blue">カテゴリ</h6>
+        <ion-row class="" (click)="selectCategory()" >
+            <ion-col col-12 class="no-padding">
+                <ion-row class="selct-border">
+                    <ion-col col-10 class="flex-center no-padding">
+                        <span float-left style="width: 100%;">{{ category_text }}</span>
+                        <!--
+                        <span *ngFor="let cat of categories"> 
+                            <label *ngIf="category.indexOf(cat.id) > -1">
+                                {{cat.category_name}} • 
+                            </label>
+                        </span>
+                        -->
+                    </ion-col>
+                    <ion-col col-2 class="flex-center">
+                        <ion-icon name="ios-arrow-forward" class="fs-24"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-list>
+
+    <!-- Days select -->
+    <ion-list class="mar-auto pad-15" no-lines>
+        <h6 class="text-blue">広告掲載期間</h6>
+        <ion-row class="">
+            <ion-col col-12 class="no-padding">
+                <ion-row class=" selct-border">
+                    <ion-col col-10 class="flex-center no-padding">
+                        <ion-select class="select-label wid-100 " [(ngModel)]="adDetails.days">
+                            <!-- <ion-option value="Cm" [selected]="true">Please select</ion-option> -->
+                            <ion-option value="1" [selected]="true">1</ion-option>
+                            <ion-option value="2">2</ion-option>
+                            <ion-option value="3">3</ion-option>
+                            <ion-option value="4">4</ion-option>
+                            <ion-option value="5">5</ion-option>
+                            <ion-option value="6">6</ion-option>
+                            <ion-option value="7">7</ion-option>
+                            <ion-option value="8">8</ion-option>
+                            <ion-option value="9">9</ion-option>
+                            <ion-option value="10">10</ion-option>
+                            <ion-option value="11">11</ion-option>
+                            <ion-option value="12">12</ion-option>
+                            <ion-option value="13">13</ion-option>
+                            <ion-option value="14">14</ion-option>
+                            <ion-option value="15">15</ion-option>
+                            <ion-option value="16">16</ion-option>
+                            <ion-option value="17">17</ion-option>
+                            <ion-option value="18">18</ion-option>
+                            <ion-option value="19">19</ion-option>
+                            <ion-option value="20">20</ion-option>
+                            <ion-option value="21">21</ion-option>
+                            <ion-option value="22">22</ion-option>
+                            <ion-option value="23">23</ion-option>
+                            <ion-option value="24">24</ion-option>
+                            <ion-option value="25">25</ion-option>
+                            <ion-option value="26">26</ion-option>
+                            <ion-option value="27">27</ion-option>
+                            <ion-option value="28">28</ion-option>
+                            <ion-option value="29">29</ion-option>
+                            <ion-option value="30">30</ion-option>
+                        </ion-select>
+                    </ion-col>
+                    <ion-col col-2 class="flex-center">
+                        <ion-icon name="ios-arrow-forward" class="fs-24"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+            <!--
+            <ion-col col-4 class="flex-center">
+            </ion-col>
+            -->
+        </ion-row>
+    </ion-list>
+
+    <!-- Price calculation -->
+    <ion-row class="bg-ligcloud" style="margin-top: 20px;">
+        <ion-col class="flex-center" style="width: 30%; max-width: 30%;">
+            <div text-center style="width: 100%;">
+                <span style="font-size: 10px;">掲載日数</span>
+                <br>
+                <br>
+                <p class="bor-pad-set" style="background: white;font-size: 1.2rem;">{{adDetails.days}} 日</p> 
+            </div>
+        </ion-col>
+
+        <ion-col class="flex-center" style="width: 5%; max-width: 4%;" >
+            <!-- <ion-icon name="md-close"></ion-icon> -->
+            <span style="margin-top: 30px;">X</span>
+        </ion-col>
+        
+        <ion-col class="flex-center" style="width: 30%; max-width: 32%;">
+            <div text-center style="width: 100%;">
+                <span style="font-size: 10px;">1日あたりの掲載料金</span>
+                <br>
+                <br>
+                <p class="bor-pad-set" style="background: white;font-size: 1.2rem;">¥ {{adDetails.days}}</p>
+            </div>
+        </ion-col>
+
+        <ion-col class="flex-center" style="width: 5%; max-width: 4%;">
+            <!-- <img src="assets/imgs/cam1.png" class="tiles-image" /> -->
+            <span style="margin-top: 30px;">=</span>
+        </ion-col>
+
+        <ion-col class="flex-center" style="width: 30%; max-width: 30%;">
+            <div text-center style="width: 100%;">
+                <span style="font-size: 10px;">合計広告掲載料金</span>
+                <br>
+                <br>
+                <p class="bor-pad-set" style="background: white;font-size: 1.2rem;" >¥ {{adDetails.days*adDetails.price}}</p> 
+            </div>
+        </ion-col>
+    </ion-row>
+
+    <br />
+
+    <ion-row class="pad-15">
+        <ion-col>
+            <p class="marg-2 fs-w8-5 text-blue fs-15">連絡用メールアドレス</p>
+            <div>
+                <ion-input type="text" [(ngModel)]="adDetails.email" class="box-p" style="padding:0px !important;" placeholder="Mail">Mail</ion-input>
+            </div>
+        </ion-col>
+    </ion-row>
+
+    <ion-row class="pad-15">
+        <ion-col>
+            <p class="marg-2 fs-w8-5 text-blue fs-12">確認のため、メールアドレスを再度入力してください</p>
+            <div>
+                <ion-input type="text" [(ngModel)]="adDetails.confEmail" class="box-p" style="padding:0px !important;" placeholder="Mail"></ion-input>
+            </div>
+        </ion-col>
+    </ion-row>
+
+    <br />
+    <br />
+
+    <!-- Apply with this content -->
+    <ion-row class="row" style="margin-bottom: 40px;">
+        <ion-col class="col" text-center="">
+            <button class="btn-blueq " (click)="applyAd()">この内容で申請をする</button>
+        </ion-col>
+    </ion-row>
+
+</ion-content>

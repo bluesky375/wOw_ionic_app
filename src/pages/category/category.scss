@@ -1,0 +1,63 @@
+page-category {
+
+	.btn {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+    
+    .width-80 {
+        width: 150px
+    }
+    
+    .btn-blue-autho {
+        background: #435cb7;
+        color: white;
+    }
+    
+    .margi-10 {
+        margin: 30px;
+    }
+    /*
+    .checkbox-square input:before,
+    .checkbox-square .checkbox-icon:before {
+        border-radius: 2px;
+        width: 72%;
+        height: 72%;
+        margin-top: 14%;
+        margin-left: 14%;
+        border-width: 2px;
+    }
+
+    .platform-android .checkbox-platform input:after,
+    .platform-android .checkbox-platform .checkbox-icon:after,
+    .checkbox-square input:after,
+    .checkbox-square .checkbox-icon:after {
+        border-width: 2px;
+        top: 19%;
+        left: 25%;
+        // width: ($checkbox-width / 2) - 1;
+        height: 7px;
+    }
+
+    .platform-android .item-checkbox-right .checkbox-square .checkbox-icon::after {
+        top: 31%;
+    }
+    */
+}

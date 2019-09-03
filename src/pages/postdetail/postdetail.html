@@ -1,0 +1,273 @@
+<!--
+  Post detail page
+  - show post detail information.
+
+  * functions
+  - show locatioin on map
+  - add/remove post to favourite
+  - comment/like, dislike, share post
+  - comment/like, dislike comment
+  - reply comment
+  - report comment
+-->
+
+<ion-header>
+</ion-header>
+
+<ion-content>
+  
+    <!-- Google Map -->
+    <ion-row>
+        <ion-col class="no-padding">
+            <ion-icon name="ios-arrow-back" class="backbtn back-index" (click)="goBack()"></ion-icon>
+            <!-- <img src="assets/imgs/gps.png" class="gps-posi" (click)="forGeoLocation()" /> -->
+            <img src="assets/imgs/mapname.png" class="map-text" (click)="launchNavigate()" />
+            <div #map id="map"></div>
+        </ion-col>
+    </ion-row>
+ 
+    <!-- Post photo -->
+    <div>
+        <img *ngIf="post" [src]="post.file_name" height="260" imageViewer class="wid-100" style="object-fit: contain;" />
+    </div>
+
+    <!-- Post favourtie -->
+    <ion-row *ngIf="!isedit">
+        <ion-col col-6></ion-col>
+        
+        <ion-col col-2></ion-col>
+
+        <ion-col col-2></ion-col>
+        
+        <ion-col col-2>
+            <div >
+                <img src="assets/imgs/staroff.png" style="width:30px;height:30px;" class="mar-auto" *ngIf="!hideMe" (click)="addFav()" />
+                <img src="assets/imgs/staron.png" style="width:31px;height:30px;" class="mar-auto" *ngIf="hideMe" (click)="removeFav()" />
+            </div>
+        </ion-col>
+    </ion-row>
+
+    <!-- Post edit -->
+    <div *ngIf="isedit" class="float-right" padding>
+        <img src="assets/imgs/edit.png" height="26" (click)="goEditPost()">
+    </div>
+
+    <!-- First row item : Post -->
+    <div class="bor-bot">
+        <ion-row class="wid-100">
+            <ion-col col-2>
+                <ion-avatar item-start style="margin-left: 12px;">
+                    <img *ngIf ="post" [src]="post.user_icon" class="img-avtar mar-auto" />
+                </ion-avatar>
+            </ion-col>
+
+            <ion-col col-10>
+                <p class="fs-16" style="margin-bottom: 6px; margin-top:6px;">
+                    <!-- User name --> 
+                    <span *ngIf="post">{{post.username}}</span>
+                    <!-- Date --> 
+                    <ion-note class="fs-14 pad-right float-right text-black" *ngIf="post" style="margin-top:3px;">
+                        {{post.reg_date | date :'yyyy/MM/dd'}}&nbsp;&nbsp;
+                        <span class="fs-14" *ngIf="post">{{post.reg_date | date :'HH:mm'}}</span>
+                    </ion-note>
+                </p>
+                
+                <!-- Post comment --> 
+                <p class="fs-12 mar-auto" *ngIf="post">
+                    {{post.comment}}
+                </p>
+                
+                <ion-row style="width: 100%;">
+                    <!-- Post like -->
+                    <ion-col col-3 class="no-padding">
+                        <button *ngIf="post && post.like_status == '1'" ion-button icon-start clear small class="no-padding text-blue" (click)="setPostLike(post.id)">
+                            <img src="assets/imgs/heart.png" class="icons-small">&nbsp;
+                            <p class="fs-12 text-blue text-trans-initial"> いいね&nbsp;
+                                <span *ngIf="post">{{post.num_like}}</span>
+                            </p>
+                        </button>
+                        <button *ngIf="post && post.like_status == '0'" ion-button icon-start clear small class="no-padding text-blue" (click)="setPostLike(post.id)">
+                            <img src="assets/imgs/heart-white-hi.png" class="icons-small">
+                            <p class="fs-12 text-blue text-trans-initial">&nbsp;&nbsp;いいね&nbsp;
+                                <span *ngIf="post">{{post.num_like}}</span>
+                            </p>
+                        </button>
+                    </ion-col>
+                    
+                    <!-- Post Comment -->
+                    <ion-col col-4 class="no-padding" style="text-align:right;">
+                        <button ion-button icon-start clear small class="no-padding text-blue" (click)="commentPost()">
+                            <img src="assets/imgs/send.png" class="icons-small">
+                            <p class="fs-12 text-blue text-trans-initial">&nbsp;&nbsp;コメント&nbsp;
+                                <span *ngIf="post">{{post.num_comment}}</span>
+                            </p>
+                        </button>
+                    </ion-col>
+                    
+                    <!-- Post Share -->
+                    <ion-col col-3 class="no-padding" style="text-align:right;">
+                        <button ion-button icon-start clear small class="no-padding text-blue" (click)="shareInfo()">
+                            <img src="assets/imgs/share.png" class="icons-small">
+                            <p class="fs-12 text-blue text-trans-initial">&nbsp;&nbsp;シェア</p>
+                        </button>
+                    </ion-col>
+
+                    <!-- Post Report -->
+                    <ion-col col-2 class="no-padding flex-center " style="display:block; text-align:right;">
+                        <ion-note>
+                            <ion-icon name="ios-close" class="fs-24 fs-w8-8" style="margin:5px 10px 0px 0px;" (click)="reportPost(post)"></ion-icon>
+                        </ion-note>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </div>
+
+    <!-- comments array -->
+    <div *ngFor="let cmt of comments;" class="bor-bot" >
+        <!-- Parent comment -->
+        <ion-row class="wid-100" >
+            <!-- comment avatar -->
+            <ion-col col-2>
+                <ion-avatar item-start style="margin-left: 12px;">
+                    <img *ngIf ="cmt" [src]="cmt.file_name" class="img-avtar mar-auto" />
+                </ion-avatar>
+            </ion-col>
+            
+            <ion-col col-10>
+                <p class="fs-16" style="margin-bottom: 6px; margin-top:6px;">
+                    <!-- comment user name -->
+                    <span *ngIf ="cmt">{{cmt.user_name}}</span>
+                    <!-- comment time -->
+                    <ion-note class="fs-14 pad-right float-right text-black" *ngIf ="cmt" style="margin-top:3px;">{{cmt.reg_date | date :'yyyy/MM/dd'}}&nbsp;&nbsp;
+                        <span class="fs-14" *ngIf ="cmt">{{cmt.reg_date | date :'HH:mm'}}</span>
+                    </ion-note>
+                </p>
+                
+                <!-- comment content -->
+                <p class="fs-12 mar-auto" *ngIf ="cmt">
+                    {{cmt.content}}
+                </p>
+
+                <ion-row style="width: 100%;">
+                    <!-- Like button -->          
+                    <ion-col col-4 class="no-padding">
+                        <button ion-button icon-start clear small class="no-padding text-blue" (click)="setCommentLike(cmt.id)">
+                            <img *ngIf="cmt && cmt.like_status == '1'" src="assets/imgs/heart.png" class="icons-small">
+                            <img *ngIf="cmt && cmt.like_status == '0'" src="assets/imgs/heart-white-hi.png" class="icons-small">
+                            <p class="fs-12 text-blue text-trans-initial">&nbsp;&nbsp;いいね&nbsp;
+                                <span *ngIf="cmt">{{cmt.num_like}}</span>
+                            </p>
+                        </button>
+                    </ion-col>
+
+                    <!-- Reply button -->          
+                    <ion-col col-4 class="no-padding">
+                        <button ion-button icon-start clear small class="no-padding text-blue" (click)="commentCmnt(cmt)">
+                            <img src="assets/imgs/send.png" class="icons-small">
+                            <p class="fs-12 text-blue text-trans-initial">&nbsp;&nbsp;コメント&nbsp;
+                                <span *ngIf="cmt">{{cmt.num_reply}} </span>
+                            </p>
+                        </button>
+                    </ion-col>
+
+                    <!-- Report button -->          
+                    <ion-col col-4 class="no-padding flex-center" style="text-align: right; display:block;">
+                        <ion-note>
+                            <ion-icon name="ios-close" class="fs-24 fs-w8-8" style="margin:5px 10px 0px 0px;" (click)="reportComment(cmt)"></ion-icon>
+                        </ion-note>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+
+        <!-- Child comment -->
+        <div padding *ngIf ="cmt && cmt.innerComments && cmt.innerComments.length > 0">
+            <ion-row *ngFor="let icmt of cmt.innerComments;"> 
+                <!-- comment user image -->
+                <ion-col col-2>
+                    <ion-avatar item-start style="margin-left: 12px;">
+                        <img *ngIf="icmt" [src]="icmt.file_name" class="img-avtar-child mar-auto" />
+                    </ion-avatar>
+                </ion-col>
+                
+                <!-- comment user name -->
+                <ion-col col-10>
+                    <p class="fs-16" style="margin-bottom: 6px;margin-top: 6px;">
+                        <span *ngIf ="icmt">{{icmt.user_name}}</span>
+                        <!-- comment time -->
+                        <ion-note class="fs-14 pad-right float-right text-black" style="margin-top:3px;">{{icmt.reg_date | date :'yyyy/MM/dd'}}&nbsp;&nbsp;
+                            <span class="fs-14" *ngIf ="icmt">{{icmt.reg_date | date :'HH:mm'}}</span>
+                        </ion-note>
+                    </p>
+
+                    <!-- comment content -->
+                    <p class="fs-12 mar-auto">
+                        {{icmt.content}}
+                    </p>
+                    
+                    <ion-row style="width: 100%;">
+                        <!-- like button -->
+                        <ion-col col-4 class="no-padding">
+                            <button ion-button icon-start clear small class="no-padding text-blue" (click)="setCommentLike(icmt.id)">
+                                <img *ngIf="icmt && icmt.like_status == '1'" src="assets/imgs/heart.png" class="icons-small">
+                                <img *ngIf="icmt && icmt.like_status == '0'" src="assets/imgs/heart-white-hi.png" class="icons-small">
+                                <p class="fs-12 text-blue text-trans-initial">&nbsp;&nbsp;いいね&nbsp;
+                                    <span>{{icmt.like_count}}</span>
+                                </p>
+                            </button>
+                        </ion-col>
+
+                        <!-- reply button -->
+                        <ion-col col-4 class="no-padding">
+                            <button ion-button icon-start clear small class="no-padding text-blue" (click)="commentCmnt(icmt)">
+                                <img src="assets/imgs/send.png" class="icons-small">
+                                <p class="fs-12 text-blue text-trans-initial" >&nbsp;&nbsp;コメント&nbsp;
+                                    <span *ngIf="icmt">{{icmt.reply_count}}</span>
+                                </p>
+                            </button>
+                        </ion-col>
+           
+                        <!-- report button -->
+                        <ion-col col-4 class="no-padding flex-center" style="text-align: right; display:block;">
+                            <ion-note >
+                                <ion-icon name="ios-close" class="fs-24 fs-w8-8" style="margin:5px 10px 0px 0px;" (click)="reportComment(icmt)"></ion-icon>
+                            </ion-note>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+            </ion-row>
+        </div>
+    </div>
+    
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+    <br>
+    <br>
+
+    <!-- comment dialog -->
+    <ion-grid style="background-color: #9ba0b8 !important;position:fixed;bottom: 0px;left:0;z-index: 100000;" *ngIf="showCommentBox">
+        <ion-row>
+            <ion-col col-2>
+                <img style="width:42px;height:42px;" [src]="current_user_icon" class="img-avtar mar-auto" />
+            </ion-col>
+
+            <ion-col col-8>
+                <ion-textarea placeholder="Enter a description" style="background: white;border-radius: 6px;height: 100%;padding: 6px;" [(ngModel)]="commenttext" >
+                </ion-textarea>
+            </ion-col>
+
+            <ion-col col-2 style="text-align: center;">
+                <ion-icon name="close-circle" style="font-size: 36px;color: #3a51b2 !important;margin-top: 10px;" (click)="cloceClick()"></ion-icon>
+                <ion-icon name="send" style="font-size: 40px;color: #3a51b2 !important;margin-top: 10px;" (click)="sendClick()"></ion-icon>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+</ion-content>

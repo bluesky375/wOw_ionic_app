@@ -1,0 +1,75 @@
+<!--
+  Generated template for the RegisterCompletePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+</ion-header>
+
+<ion-content padding class="app_color">
+
+    <div class="center-div flex-center hi-100">
+
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <p text-center> 興味があるカテゴリー・地域を選択してください </p>
+                </ion-col>
+            </ion-row>
+
+            <!-- Category -->
+            <ion-row>
+                <ion-col (click)="selectCategory()">
+                    <ion-label class="marg-2">
+                        <b>カテゴリー</b>
+                    </ion-label>
+
+                    <!--
+                    <ion-select palceholder="Category" multiple="true" [(ngModel)]="category" class="sel-box" disabled=true>
+                        <ion-option *ngFor="let cat of categories" [value]="cat.id">
+                            <span *ngIf="category.indexOf(cat.id) > -1"> {{cat.category_name}} </span>
+                        </ion-option>
+                    </ion-select>
+                    -->
+                    
+                    <div style="border-radius: 6px;width: 100%;background: #fff !important; max-width: 100% !important;opacity: 1 !important;padding: 8px !important;display: block; min-height: 35px;">
+                        <span *ngFor="let cat of categories"> 
+                            <label *ngIf="category.indexOf(cat.id) > -1">
+                                {{cat.category_name}} <br />
+                            </label>
+                        </span>
+                    </div>
+                    
+                </ion-col>
+            </ion-row>
+
+            <!-- City -->
+            <ion-row>
+                <ion-col (click)="selectCity()">
+                    <ion-label class="marg-2">
+                        <b>都市</b>
+                    </ion-label>
+                    
+                    <div style="border-radius: 6px;width: 100%;background: #fff !important; max-width: 100% !important;opacity: 1 !important;padding: 8px !important;display: block; min-height: 35px;">
+                        <label *ngFor="let loc of locations">
+                            {{ loc.name }} <br />
+                        </label>
+                    </div>
+                </ion-col>
+            </ion-row>
+
+            <!-- Buttons -->
+            <ion-row class="pad-100 marg-top">
+                <ion-col col-6 class="">
+                    <button class="btn width-100per bg-gre" (click)="goBack()">キャンセル</button>
+                </ion-col>
+
+                <ion-col col-6 class="">
+                    <button class="btn width-100per btn-cloud" (click)="register()">登録</button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+</ion-content>

@@ -1,0 +1,99 @@
+<!--
+    MyPostPage
+-->
+<ion-header>
+    <ion-navbar>
+        <!--  
+            <ion-searchbar placeholder="検索" (ionInput)="search($event)"> </ion-searchbar>
+        -->
+        <ion-searchbar [(ngModel)]="keyword" (search)="searchPosts($event)" placeholder="検索"> </ion-searchbar>
+    </ion-navbar>
+
+    <ion-row>
+        <ion-col col-8>
+            <ion-item class="no-padding no-border">
+                <ion-avatar item-start class="mar-06">
+                    <img [src]="user.user_icon" />
+                </ion-avatar>
+                <h3>
+                    <b>投稿した写真一覧</b>
+                </h3>
+            </ion-item>
+        </ion-col>
+        <ion-col col-4 class="flex-center">
+            <button class=" btn-set text-white wid-100 bg-bluee no-border" *ngIf="!sort" (click)="sortDown()">
+                投稿日 &nbsp;
+                <ion-icon name="ios-arrow-down-outline" ></ion-icon>
+            </button>
+
+            <button class=" btn-set text-white wid-100 bg-bluee no-border" *ngIf="sort" (click)="sortUp()">
+                投稿日 &nbsp;
+                <ion-icon name="ios-arrow-up-outline" ></ion-icon>
+            </button>
+        </ion-col>
+    </ion-row>
+
+    <div>
+        <ion-segment [(ngModel)]="selected_tab" class="bg-none">
+            <!-- Saved photos -->
+            <ion-segment-button value="getall" (ionSelect)="categorySegmentClicked($event)">
+                <span class="text-trans-initial fs-16">保存した写真</span>
+            </ion-segment-button>
+
+            <!-- By category -->
+            <ion-segment-button value="getbycat" (ionSelect)="categorySegmentClicked($event)">
+                <span class="text-trans-initial fs-16">カテゴリー別</span>
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+</ion-header>
+
+<ion-content>
+    
+    <div [ngSwitch]="selected_tab" style="padding-top:12px;">
+
+        <!-- Show all posts -->
+        <ion-list *ngSwitchCase="'getall'">
+            <ion-row style="padding: 4px;">
+                <ion-col col-4 *ngFor="let post of posts" style="padding:4px !important;">
+                    <img [src]="post.raw_file_name" onError="this.src='assets/imgs/post_placeholder.jpg';" class="fav-image" (click)="gotoPost(post)" />
+                    <div class="icon-list">
+                        <img src="assets/imgs/lock.png" *ngIf="post.share == 1" class="icon-lock">
+                        <img src="assets/imgs/facebook_logo.png" *ngIf="post.publish == 1 || post.publish == 4 || post.publish == 5 || post.publish == 7" class="icon-social">
+                        <img src="assets/imgs/instagram_logo.png" *ngIf="post.publish == 3 || post.publish == 5 || post.publish == 6 || post.publish == 7" class="icon-social">
+                        <img src="assets/imgs/twitter_logo.png" *ngIf="post.publish == 2 || post.publish == 4 || post.publish == 6 || post.publish == 7" class="icon-social">
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-list>
+
+        <ion-list *ngSwitchCase="'getbycat'">
+            <!-- Show all categories -->
+            <div *ngIf="!category_selected">
+                <ion-row style="padding: 4px;">
+                    <ion-col col-4 class="flex-center" *ngFor="let cat of categories; let i = index" style="padding:4px !important;">
+                        <img *ngIf="cat.del_flag==0" [src]="imageurl[cat.id-1]" class="image-ti" (click)="selectCat(cat.id, cat.category_name)" />
+                    </ion-col>
+                </ion-row>
+            </div>
+
+            <!-- Show posts by category -->
+            <div *ngIf="category_selected">
+                <ion-row style="padding: 4px;">
+                    <ion-col col-4 class="flex-center" style="padding:4px !important;">
+                        <img [src]="imageurl[currentCatId-1]" class="image-ti" (click)="backCat()" />
+                    </ion-col>
+                    <ion-col col-8>
+                        <h5 class="mar-auto lh-100">{{currentCatName}}</h5>
+                    </ion-col>
+                </ion-row>
+                <ion-row  style="padding: 4px;">
+                    <ion-col col-4 *ngFor="let post of postsbycat;" style="padding:4px !important;">
+                        <img [src]="post.raw_file_name" onError="this.src='assets/imgs/post_placeholder.jpg';" class="fav-image" (click)="gotoPost(post)" />
+                    </ion-col>
+                </ion-row>
+            </div>
+        </ion-list>
+
+    </div>
+</ion-content>

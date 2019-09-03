@@ -1,0 +1,56 @@
+<ion-header>
+
+    <ion-navbar>
+        <!--
+        <button ion-button clear icon-only (click)="dismiss()" style="height: 2.0rem; z-index: 100;">
+            <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+        </button>
+        -->
+        <ion-title>地域選択</ion-title>
+    </ion-navbar>
+  
+</ion-header>
+
+<ion-content>
+    
+    <ion-label class="no-border text-blue" text-wrap style="font-size: 1.7rem !important; margin-left: 30px; margin-bottom: 20px;">
+        興味がある地域を選択してください。<br>
+        最大5つまで選択可能です。
+    </ion-label>
+
+    <!-- selected locations -->
+    <ion-list no-lines>
+        <ion-item ion-item *ngFor="let l of locations" class="selected-continent">
+            <button no-padding class="item-selected-continent" ion-button outline round style="font-size: 1.7rem !important;">
+                {{ l.name }}
+                <ion-icon icon-right class="selected-continent-icon" name="md-close" (click)="removeItem(l)"></ion-icon>
+            </button> 
+        </ion-item>
+    </ion-list>
+    
+    <!-- prefectures -->
+    <ion-list class="last-item-border">
+        <ion-list-header class="no-border text-blue fs-16 continent-list" no-margin text-wrap>
+            {{ list_label }}
+        </ion-list-header>
+        <button no-padding class="item-continent" ion-item *ngFor="let p of prefectures" (click)="selectItem(p)">
+            {{ p.name }}
+            <!-- <ion-icon item-right class="item-right-icon" name="ios-arrow-forward-outline"></ion-icon> -->
+        </button> 
+    </ion-list>
+
+    <!-- Cancel button -->
+    <div class="flex-center" padding-bottom>
+        <div class="text-center">
+            <button class="btn bg-gre width-80 fs-16" (click)="dismiss()" >戻る</button>
+        </div>
+    </div>
+    
+    <!-- OK button -->
+    <div class="flex-center" padding-bottom>
+        <div class="text-center">
+            <button class="btn btn-blue-autho width-80 fs-16" (click)="submit()" >決定</button>
+        </div>
+    </div>
+</ion-content>
+  

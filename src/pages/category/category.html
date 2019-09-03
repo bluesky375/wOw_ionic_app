@@ -1,0 +1,59 @@
+<!--
+  Generated template for the CategoryPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+	<!--
+	<ion-toolbar>
+		<ion-buttons left>
+			<button ion-button icon-only (click)="dismiss()">
+				<ion-icon name="ios-arrow-back"></ion-icon>
+			</button>
+		</ion-buttons>
+	
+		<ion-title>カテゴリ選択</ion-title>
+	</ion-toolbar>
+	-->
+	<ion-navbar>
+		<!--
+		<button ion-button clear icon-only (click)="goBack()" style="height: 2.0rem; z-index: 100;">
+			<ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+		</button>
+		-->
+		<ion-title>お気に入り</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-list radio-group>
+		<!--
+		<ion-list-header class="no-border text-blue fs-16" style="margin-bottom: 0px;">
+			
+		</ion-list-header>
+		-->
+		<div class="text-align text-blue fs-16" style="padding-left: 30px; padding-right: 30px; padding-bottom: 15px;" text-wrap>
+			興味があるカテゴリを最大５つまで選択し、画面下の決定ボタンをクリックして下さい。
+		</div>
+
+		<div class="text-align" *ngFor="let cat of categories" style="padding-left: 30px;" text-wrap>
+			<ion-checkbox class="checkbox-square" [checked]="category.indexOf(cat.id)>-1" (ionChange)="addValue($event, cat.id)" color="dark"></ion-checkbox>
+			<span style="padding: 10px;">{{cat.category_name}}</span>
+		</div>
+	</ion-list> 
+
+	<!-- Cancel button -->
+    <div class="flex-center" padding-bottom>
+        <div class="text-center">
+            <button class="btn bg-gre width-80 fs-16" (click)="dismiss()" >キャンセル</button>
+        </div>
+    </div>
+
+    <!-- OK button -->
+    <div class="flex-center" padding-bottom>
+        <div class="text-center">
+           <button class="btn btn-blue-autho width-80 fs-16" (click)="submit()" >決定</button>
+        </div>
+   </div>
+</ion-content>

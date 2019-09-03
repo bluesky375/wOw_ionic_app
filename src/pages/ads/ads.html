@@ -1,0 +1,97 @@
+<!--
+  Manage Ads page
+  - 1st tab: Ads on sale
+  - 2nd tab: Ads on pending
+  - 3rd tab: Ads ended
+-->
+
+<ion-header>
+    <ion-navbar class="">
+        <ion-title class="">
+            <img [src]="current_user_icon" style="width: 40px;" class="img-avtar" />&nbsp;
+            広告一覧
+        </ion-title>
+
+        <ion-buttons right>
+            <button ion-button class="text-trans-initial btn-blue" (click)="goAdNew()">
+                <!-- Apply Ad -->
+                <span class="text-white">広告申請</span>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+    <div>
+        <ion-segment [(ngModel)]="pet" class="bg-none">
+            <!-- Ad on sale -->
+            <ion-segment-button value="kittens">
+                <span class="text-trans-initial fs-14">掲載中の広告</span>
+            </ion-segment-button>
+
+            <!-- Pending review -->
+            <ion-segment-button value="puppies">
+                <span class="text-trans-initial fs-14">審査待ち</span>
+            </ion-segment-button>
+
+            <!-- Ended Ads -->
+            <ion-segment-button value="dogs">
+                <span class="text-trans-initial fs-14">掲載終了広告</span>
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+</ion-header>
+
+<ion-content>
+    <div [ngSwitch]="pet" style="padding-top:5px;">
+        <ion-list *ngSwitchCase="'kittens'">
+            <div *ngFor="let ad of showAd">
+                <ion-item style="border-bottom: 0.55px solid #c8c7cc;" (click)="goAdView(ad.id, 1)">
+                    <ion-thumbnail item-start>
+                        <img [src]="ad.file_name" />
+                    </ion-thumbnail>
+                    <p class="mar-auto fs-12">公開情報 {{ad.content}}</p>
+                    <!--<p class="mar-auto fs-12">カテゴリ {{ad.category1_name}}/{{ad.category2_name}}</p>-->
+                    <p class="mar-auto fs-12">カテゴリ {{ ad.category_text }}</p>
+                    <p class="mar-auto fs-12">掲載日数 {{ ad.days }}日間</p>
+                    <p class="mar-auto fs-12">掲載日 {{ ad.reg_date }}</p>
+                    <button ion-button clear item-end>
+                        <ion-icon name="ios-arrow-forward" class="fs-24"></ion-icon>
+                    </button>
+                </ion-item>
+            </div>
+        </ion-list>
+
+        <ion-list *ngSwitchCase="'puppies'">
+            <div *ngFor="let ad of allowAd">
+                <ion-item style="border-bottom: 0.55px solid #c8c7cc;" (click)="goAdView(ad.id, 2)">
+                    <ion-thumbnail item-start>
+                        <img [src]="ad.file_name" />
+                    </ion-thumbnail>
+                    <p class="mar-auto fs-12">公開情報 {{ ad.content }}</p>
+                    <p class="mar-auto fs-12">カテゴリ {{ ad.category_text }}</p>
+                    <p class="mar-auto fs-12">掲載日数 {{ ad.days }}日間</p>
+                    <p class="mar-auto fs-12">掲載日 {{ ad.reg_date }}</p>
+                    <button ion-button clear item-end>
+                        <ion-icon name="ios-arrow-forward" class="fs-24"></ion-icon>
+                    </button>
+                </ion-item>
+            </div>
+        </ion-list>
+
+        <ion-list *ngSwitchCase="'dogs'">
+            <div *ngFor="let ad of disAllowAd">
+                <ion-item style="border-bottom: 0.55px solid #c8c7cc;" (click)="goAdView(ad.id, 3)">
+                    <ion-thumbnail item-start>
+                        <img [src]="ad.file_name" />
+                    </ion-thumbnail>
+                    <p class="mar-auto fs-12">公開情報 {{ ad.content }}</p>
+                    <p class="mar-auto fs-12">カテゴリ {{ ad.category_text }}</p>
+                    <p class="mar-auto fs-12">掲載日数 {{ ad.days }}日間</p>
+                    <p class="mar-auto fs-12">掲載日 {{ ad.reg_date }}</p>
+                    <button ion-button clear item-end>
+                        <ion-icon name="ios-arrow-forward" class="fs-24"></ion-icon>
+                    </button>
+                </ion-item>
+            </div>
+        </ion-list>
+    </div>
+</ion-content>

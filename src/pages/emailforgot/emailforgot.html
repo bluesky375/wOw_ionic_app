@@ -1,0 +1,28 @@
+<!--
+  Generated template for the EmailForgotPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+</ion-header>
+
+<ion-content class="app_color">
+    <div class="flex-center hi-100">
+        <div class="marg-top">
+            <div class="">
+                <h4 class="text-center">パスワードの再発行</h4>
+            </div>
+            <div class="center-div">
+                <p class="marg-2 fs-w8-5 fs-16">メールアドレスを入力して下さい</p>
+                <input [(ngModel)]="email" type="text" class="inp-box" />
+            </div>
+            <div class="marg-top text-center">
+                <button class="btn width-80 btn-blue-autho fs-16" (click)="confirmEmail()">認証コードを発行</button>
+            </div>
+            <div class="text-center margi-10">
+                <button class="btn width-80 bg-gre fs-16" (click)="goBack()">キャンセル</button>
+            </div>
+        </div>
+    </div>
+</ion-content>
